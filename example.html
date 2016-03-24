@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Collect and Bind</title>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .gray {
+            color: gray;
+        }
+
+        .blue {
+            color: blue;
+        }
+
+        .even {
+            font-style: italic;
+        }
+
+        .odd {
+            font-weight: bold;
+        }
+
+        .price {
+            position: absolute;
+            background-color: white;
+            margin: 5px;
+            border: 1px solid black;
+            z-index: 1000;
+        }
+
+        .tip {
+            background-color: white;
+            padding: 5px;
+            border: solid 1px black;
+            cursor: auto;
+        }
+
+        .underlined {
+            padding-bottom: 1px;
+            border-bottom: 1px dotted #849bab;
+            cursor: help;
+        }
+    </style>
+</head>
+<body>
+<div><span class="underlined" __pop__="{prefix: 'tip', tipId: ''}"><span __dat__="count"></span> people were in Titanic</span>
+</div>
+<div id="tip" style="display: none;position:absolute;">
+    <div class="tip">
+        Whose names are listed below.
+    </div>
+</div>
+<div __for__="who in people">
+    <div>
+        <span __dat__="who.name"></span> was <span __dat__="who.age"></span> years old. <span
+            __vis__="!who.gender">He</span><span __vis__="who.gender">She</span> read:
+    </div>
+    <ul __for__="book in who.books">
+        <li>
+            <span style="cursor:pointer" __cls__="book.bClass" __dat__="book.title"
+                  __set__="book.bClass={red:true,gray:false};book.visible=true@mouseover|book.bClass={red:false,gray:true};book.visible=false@mouseout"></span>
+            <span class="blue price" __css__="$popup" __vis__="book.visible"> $<span __dat__="book.price"></span></span>
+            - keywords:
+            <span style="cursor:pointer" __vis__="book.keywords">
+                <span class="gray underlined" __set__="book.keywordsVisible=false;book.keywordsIndicator='→'"
+                      __dat__="book.keywordsIndicator" __vis__="book.keywordsVisible"></span><span
+                    class="blue underlined" __set__="book.keywordsVisible=true;book.keywordsIndicator='←'"
+                    __dat__="book.keywordsIndicator" __vis__="!book.keywordsVisible"></span>
+            </span>
+            <span __vis__="book.keywordsVisible">
+                <span __for__="keyword in book.keywords" __vis__="book.keywords">
+                    <span __dat__="$index"></span><span>, </span>
+                    <span class="underlined" __pop__="{prefix: 'ktip', tipId: '$id', maxWidth: 200}">
+                        <span __dat__="keyword" __cls__="{even: '$even', odd: '$odd'}"></span>
+                        <div id="ktip" style="display:none;position:absolute;" __eid__="$id">
+                            <div class="tip">
+                                <span>
+                                    The book is about <span __dat__="keyword"></span>.
+                                </span>
+                            </div>
+                        </div>
+                    </span>
+                    <span __vis__="!$last">; </span><span __vis__="$last">.</span>
+                </span>
+            </span>
+            <span class="red" __vis__="!book.keywords">
+                <i>None</i>
+            </span>
+        </li>
+    </ul>
+</div>
+<script src="polyfill.js"></script>
+<script src="jquery.min.js"></script>
+<script src="cBind.js"></script>
+<script src="people.js"></script>
+</body>
+</html>
