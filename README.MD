@@ -34,7 +34,7 @@ $.cBindSet({
 });
 ```
 
-Check [example.html](blob/master/example.html) and [people.js](blob/master/people.js) for more usage references.
+Check [example.html](example.html) and [people.js](people.js) for more usage references.
 
 
 ## Customized HTML Attributes
